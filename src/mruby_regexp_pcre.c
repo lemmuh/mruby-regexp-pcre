@@ -170,6 +170,8 @@ regexp_pcre_match(mrb_state *mrb, mrb_value self)
   matchlen = ccount + 1;
   match = mrb_malloc(mrb, sizeof(int) * matchlen * 3);
 
+  extra.flags = PCRE_EXTRA_MATCH_LIMIT_RECURSION;
+  extra.match_limit_recursion = 100000;
   rc = pcre_exec(reg->re, &extra, RSTRING_PTR(str), RSTRING_LEN(str), pos, 0, match, matchlen * 3);
   if (rc < 0) {
     mrb_free(mrb, match);
